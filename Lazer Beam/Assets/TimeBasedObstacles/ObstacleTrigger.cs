@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ObstacleTrigger : MonoBehaviour
 {
@@ -18,51 +17,54 @@ public class ObstacleTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        IsItHappening = false;
+        IsItHappening = false; //Keep the bool false, right from the start
         decreasing = Timer;
     }
 
     // Update is called once per frame
-    void Update() //Checking for Turning Off and Turning On in every frame
+    void Update() //Checking for Turning Off and Turning On in every frame.
     {
         TurningOff();
         TurningOn();
     }
 
-    public void OnTriggerEnter(Collider other) //Check for collisions. Feel free to remove this and call the TurningOff()
+    public void OnTriggerEnter(Collider other) //Check for collisions. Feel free to remove this and use your own way to trigger
     {
         print(other);
         if (Trigger.GetComponent<Collider>() == other)
         {
             BoolCheck();
-            print(IsItHappening);
+
+            //print(IsItHappening); //Print can be used to check if script is working or not
         }
     }
     public void TurningOff () //Turn off the obstacle and start the timer. Can be called from another script or GameManager.
     {
-        if (IsItHappening == true)
+        if (IsItHappening == true) //Check if Bool is true or not
         {
-            if (decreasing > 0f)
+            if (decreasing > 0f) //If Timer is more than zero
             {
-                decreasing -= Time.deltaTime;
+                decreasing -= Time.deltaTime; //decrease time in a countdown
+
                 //print(decreasing);
             }
-            Obstacle.gameObject.SetActive(false);
+            Obstacle.gameObject.SetActive(false); //Turn off your obstacle
         }
     }
 
     public void TurningOn () //Turn on the obstacle again once the timer is complete. Can be called from another script or GameManager.
     {
-        if (decreasing <= 0f)
+        if (decreasing <= 0f) //If Timer is at zero
         {
-            Obstacle.gameObject.SetActive(true);
+            Obstacle.gameObject.SetActive(true); //Turn on your obstacle
             IsItHappening = false;
-            print(IsItHappening);
-            decreasing = Timer;
+            decreasing = Timer; //Bring back the decreased time to it's original set value so it can be triggered again
+
+            //print(IsItHappening);
         }
     }
 
-    public void BoolCheck ()
+    public void BoolCheck () //Turn the bool into true
     {
         IsItHappening = true;
     }
